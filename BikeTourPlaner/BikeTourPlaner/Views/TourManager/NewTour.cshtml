@@ -1,0 +1,54 @@
+﻿@model BikeTourPlaner.Models.ModelViews.NewTourMV
+@{
+    ViewData["Title"] = "Make New Tour";
+}
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Make New Tour</h1>
+        @using (Html.BeginForm("NewTour", "TourManager", FormMethod.Post))
+        {
+            @if (!String.IsNullOrEmpty(ViewData["_NewTourError"]?.ToString()))
+            {
+                ViewData["_NewTourError"].ToString();
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.TourName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TourName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TourName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlannedDistance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PlannedDistance, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PlannedDistance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TourDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TourDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TourDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Make" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@using BikeTourPlaner.Models.ModelViews
+@model CaloriesInIntervalMV
+@{
+    ViewData["Title"] = "Calories Used In Interval";
+    int cals = 0;
+}
+
+
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Calories Used In Interval</h1>
+        @using (Html.BeginForm("CaloriesInInterval", "UserTourInformations", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            @if (!String.IsNullOrEmpty(ViewData["_CaloriesInIntervalError"]?.ToString()))
+            {
+                ViewData["_CaloriesInIntervalError"].ToString();
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IntervalLeft, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IntervalLeft, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IntervalLeft, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IntervalRight, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IntervalRight, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IntervalRight, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Calculate" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (ViewData["_UsedCalories"] != null && int.TryParse(ViewData["_UsedCalories"].ToString(),out cals)){
+    <p>You've been burned @cals kCalories!</p>
+}

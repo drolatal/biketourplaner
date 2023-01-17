@@ -1,0 +1,69 @@
+﻿@using BikeTourPlaner.Models.ModelViews
+@model CircleChartMV
+@{
+    ViewData["Title"] = "How much of us Made the tour?";
+    UserTourData utd = ViewData["_UserTourData"] as UserTourData;
+    List<SelectListItem> sli = new();
+    foreach (TourPlan plan in utd.TourPlans)
+    {
+        sli.Add(new SelectListItem($"Name: {plan.TourName}, Date: {plan.TourDate}, Cost: {plan.Cost}", plan.Tid.ToString()));
+    }
+}
+
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Apply To Tour</h1>
+        @using (Html.BeginForm("CircleChart", "UserTourInformations", FormMethod.Post))
+        {
+            @if (!String.IsNullOrEmpty(ViewData["_ApplyTourError"]?.ToString()))
+            {
+                ViewData["_ApplyTourError"].ToString();
+            }
+                <div class="form-group">
+                @Html.LabelFor(model => model.ChoosenTour, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ChoosenTour, sli,"Choose Tour")
+                    @Html.ValidationMessageFor(model => model.ChoosenTour, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Choose" class="btn btn-default" />
+                    </div>
+                </div>
+        }
+    </div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewData["_people"]?.ToString())){
+    string people = ViewData["_people"]?.ToString();
+
+    <br />
+    @people
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+            ['Name', 'Km'],
+        
+            @people
+            ]);
+
+            var options = {
+                title: 'Ridden kms for person'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+}

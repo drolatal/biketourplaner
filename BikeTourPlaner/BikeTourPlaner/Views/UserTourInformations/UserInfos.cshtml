@@ -1,0 +1,52 @@
+﻿@model BikeTourPlaner.Models.ModelViews.UserTourData
+@{
+    ViewData["Title"] = "All User Tour Informations";
+}
+
+<table class="align-content-center">
+    <tr>
+        <th>Name</th>
+        <td>@Model.UData.Name</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>@Model.UData.Email</td>
+    </tr>
+    <tr>
+        <th>Kor</th>
+        <td>@(DateTime.Now.Year - Model.UData.BirthDate.Year)</td>
+    </tr>
+</table>
+
+<table class="align-content-center" style="border: black 1px solid; border-collapse:collapse">
+    <tr>
+        <th style="border: black 1px solid; border-collapse:collapse">Tour Name</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Tour Date</th>
+        <th style="border: black 1px solid; border-collapse:collapse">User's Age</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Planned Distance (km)</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Traveled Distance (km)</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Cost (HUF)</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Rain (mm)</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Daily Temperature</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Travel Time</th>
+        <th style="border: black 1px solid; border-collapse:collapse">Accidents</th>
+        <th style="border: black 1px solid; border-collapse:collapse">kCalories</th>
+    </tr>
+    @for(int i = 0; i < Model.TourResults.Count(); i++)
+    {
+        <tr>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourPlans[i].TourName</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourPlans[i].TourDate</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@(Model.TourPlans[i].TourDate.Year - Model.UData.BirthDate.Year)</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourPlans[i].PlannedDistance</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].DistanceTraveled</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourPlans[i].Cost</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].Rain</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].DailyTemp</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].TravelTime</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].Accident</td>
+            <td style="border: black 1px solid; border-collapse:collapse">@Model.TourResults[i].Kcalories</td>
+        </tr>
+    }  
+
+</table>

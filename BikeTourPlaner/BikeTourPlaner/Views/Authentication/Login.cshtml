@@ -1,0 +1,38 @@
+﻿@model BikeTourPlaner.Models.ModelViews.LoginUserMV
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Login</h1>
+        @using (Html.BeginForm("Login","Authentication",FormMethod.Post))
+        {
+            @if (!String.IsNullOrEmpty(ViewData["_LoginError"]?.ToString()))
+            {
+                ViewData["_LoginError"].ToString();
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.NickName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NickName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Login" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+ </div>

@@ -1,0 +1,44 @@
+﻿@using BikeTourPlaner.Models.ModelViews
+@model AvarageSpeedsMV
+@{
+    ViewData["Title"] = "Avarage Speeds";
+    UserTourData utd = ViewData["_UserTourData"] as UserTourData;
+    List<SelectListItem> sli = new List<SelectListItem>();
+    foreach (TourPlan plan in utd.TourPlans)
+    {
+        sli.Add(new SelectListItem($"Name: {plan.TourName}, Date: {plan.TourDate}, Cost: {plan.Cost}", plan.Tid.ToString()));    }
+}
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Apply To Tour</h1>
+        @using (Html.BeginForm("AvarageSpeeds", "UserTourInformations", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            @if (!String.IsNullOrEmpty(ViewData["_AvarageSpeedsError"]?.ToString()))
+            {
+                ViewData["_AvarageSpeedsError"].ToString();
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.ChoosenTour, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ChoosenTour, sli,"Choose Tour")
+                    @Html.ValidationMessageFor(model => model.ChoosenTour, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Calculate" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@{
+    float avg=0;
+}
+@if (ViewData["_AvgSpeed"] != null && float.TryParse(ViewData["_AvgSpeed"].ToString(), out avg) ){
+    
+    <p>@avg km/h avg speed had.</p>
+}

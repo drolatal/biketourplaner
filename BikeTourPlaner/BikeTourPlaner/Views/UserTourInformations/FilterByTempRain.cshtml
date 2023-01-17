@@ -1,0 +1,86 @@
+﻿@using BikeTourPlaner.Models.ModelViews
+@model FilterByTempRainMV
+@{
+    ViewData["Title"] = "Get Tour Filtered By Temperature or Rain";
+    List<TourPlan> tps = ViewData["TourPlans"] as List<TourPlan>;
+    List<TourResult> trs = ViewData["TourResults"] as List<TourResult>;
+}
+
+<div class="text-center">
+    <div class="form-horizontal">
+        <h1 class="display-4">Get Tour Filtered By Temperature or Rain</h1>
+        @using (Html.BeginForm("FilterByTempRain", "UserTourInformations", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+           
+            <div class="form-group">
+                @Html.LabelFor(model => model.FilterType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.DropDownList("FilterType", new SelectList(Enum.GetValues(typeof(FilterOption))),"Select Filter Option", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FilterType, "", new { @class = "text-danger" })
+                    
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RelationalSign, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    
+                        @Html.DropDownList("RelationalSign",
+                                            new SelectList(Enum.GetValues(typeof(RelationalSignE))),
+                                            "Select Relational Sign",
+                                            new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RelationalSign, "", new { @class = "text-danger" })
+                    
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Choose" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (tps != null && tps.Count() > 0 && trs != null && trs.Count() > 0){
+    <table class="align-content-center" style="border: black 1px solid; border-collapse:collapse">
+        <tr>
+            <th style="border: black 1px solid; border-collapse:collapse">Tour Name</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Tour Date</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Planned Distance (km)</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Traveled Distance (km)</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Cost (HUF)</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Rain (mm)</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Daily Temperature</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Travel Time</th>
+            <th style="border: black 1px solid; border-collapse:collapse">Accidents</th>
+            <th style="border: black 1px solid; border-collapse:collapse">kCalories</th>
+        </tr>
+        @for (int i = 0; i < trs.Count; i++){
+            <tr>
+                <td style="border: black 1px solid; border-collapse:collapse">@tps[i].TourName</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@tps[i].TourDate</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@tps[i].PlannedDistance</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].DistanceTraveled</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@tps[i].Cost</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].Rain</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].DailyTemp</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].TravelTime</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].Accident</td>
+                <td style="border: black 1px solid; border-collapse:collapse">@trs[i].Kcalories</td>
+            </tr>
+        }
+    </table>
+}

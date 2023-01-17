@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Main Page";
+    
+}
+
+<div class="text-center">
+    <h1 class="display-4">Wellcome at the Bike Tour Planer!</h1>
+    @if (String.IsNullOrEmpty(ViewData["_LoggedInUId"]?.ToString()))
+    {
+        <p>PLease sing in or register to use the functions of the site!</p>
+    }
+    else
+    {
+        <p>Greetings @ViewData["_LoggedInUNN"]?.ToString()
+           !</p>
+    }
+</div>
